@@ -14,6 +14,15 @@ if(checkPlatform(window.navigator.userAgent) == "mobile"){
 	document.write(html);
 }
 
+// 결제창 return 함수(pay_result_submit 이름 변경 불가능)
+function pay_result_submit(){
+	payResultSubmit()
+}
+// 결제창 종료 함수(pay_result_close 이름 변경 불가능)
+function pay_result_close(){
+	alert('결제를 취소하였습니다.');
+}
+
 function setSendPayUrl(tagetUrl){
 	url = tagetUrl;
 }
@@ -24,7 +33,6 @@ export function SendPay(form){
 		 form.action = url + "/payInit_hash.do"; // SHA256 Hash
 		 form.submit();
 	} else {
-		alert("ss");
 		exTarget = form.target;
 	    exAction = form.action;
 	    form.target = "pg_pay_frame"; // SHA256 Hash

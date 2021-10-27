@@ -1,9 +1,12 @@
 import './App.css';
 import Routers from './Routers';
+import { ResultCreditPay } from './pages';
 
 const App = () => {
   return (
-      <Routers></Routers>
+      <Routers>
+        <ResultCreditPay/>
+      </Routers>
   );
 };
 
