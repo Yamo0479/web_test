@@ -1,7 +1,36 @@
 import React, { useEffect, useContext, useState } from 'react';
-import * as paAsistant from '../javascript/paAsistant.js';
+import * as pgAsistant from '../javascript/pgAsistant.js';
 import Button from '@material-ui/core/Button';
+import { BrowserRouter as Router, Switch, Route, Link} from 'react-router-dom';
+import Modal from 'react-modal';
+import { RequestCreditPay } from './RequestCreditPay.jsx';
 
+const customStyles = {
+    overlay: {
+     zIndex: 100,
+    },
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+        width: 'calc(100vw - 32px)',
+        boxSizing: 'border-box',
+        borderRadius: '22px',
+        padding: '24px 16px',
+    },
+};
+
+const iframw = () => {
+    return (
+        <div>
+            <iframe src = "http://www.naver.com"/>
+        </div>
+    );
+
+};
 
 export const Home = (props) => {
     
@@ -17,6 +46,7 @@ export const Home = (props) => {
         encData : '',
     };
 
+    const [modalIsOpen, setModalIsOpen] = useState(false);
     
     const SendPay = (form) => {
 
@@ -24,7 +54,24 @@ export const Home = (props) => {
 
     const requestSendPayData = (formData) => {
         console.log("payInit Form1:", formData);
-        paAsistant.SendPay(formData);
+        pgAsistant.SendPay(formData);
+    };
+
+    const openModal = (type) => {
+        if (type === 'RequestPayM') {
+          setModalIsOpen({ ...modalIsOpen, RequestPayM: true });
+        }
+      };
+      const afterOpenModal = () => {
+        // references are now sync'd and can be accessed.
+    };
+    
+    const closeModal = (type) => {
+        if (type === 'RequestPayM') {
+            setModalIsOpen({ ...modalIsOpen, RequestPayM: false });
+        } else {
+            setModalIsOpen(false);
+        }
     };
 
     return (
@@ -44,10 +91,30 @@ export const Home = (props) => {
                 <input name="ediDate" type="hidden" value="20211027110247"/>
                 <input name="encData" type="hidden" value="f9192b7aeb0785a2e254c0bd8627dc6f9924c7fe0d17d428b6bbbb8825eba26c" />
             </form>
+                {/* <Button onClick={() => { requestSendPayData(document.payInit) }} > */}
+                <Button onClick={() => {
+                        // window.open('#;', '_black');
+                        requestSendPayData(document.payInit);
+                        //   openModal('RequestPayM');
+                     
+                        
+                    }
+                }>
+                결제하기
+                </Button>
 
-            <Button onClick={() => { requestSendPayData(document.payInit) }} >
-            예
-            </Button>
+            <Modal
+                appElement={document.getElementById('root')}
+                isOpen={modalIsOpen.RequestPayM}
+                onAfterOpen={afterOpenModal}
+                onRequestClose={() => {
+                closeModal('RequestPayM');
+                }}
+                style={customStyles}
+            >
+                {/* <iframw/> */}
+                <RequestCreditPay/>
+            </Modal>
         </article>
     );
 }

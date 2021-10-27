@@ -1,4 +1,4 @@
-var isMobile = true;
+var isMobile = false;
 var exTarget;
 var exAction;
 var url = "https://testpg.pay-story.co.kr";
@@ -24,6 +24,7 @@ export function SendPay(form){
 		 form.action = url + "/payInit_hash.do"; // SHA256 Hash
 		 form.submit();
 	} else {
+		alert("ss");
 		exTarget = form.target;
 	    exAction = form.action;
 	    form.target = "pg_pay_frame"; // SHA256 Hash
